@@ -21,7 +21,7 @@ void MPU_init() {
     i2c_master_start();
     i2c_master_send(0xd0);
     i2c_master_send(SMPLRT_DIV);
-    i2c_master_send(0x07);
+    i2c_master_send(0xff); // 31.25 Hz
     i2c_master_stop();
 
     // clock source
@@ -69,7 +69,7 @@ MPU_DATA MPU_read() {
 
     i2c_master_start();
     i2c_master_send(0xd1);
-    data.Ax = ((int) i2c_master_receive() << 8) | (int) i2c_master_receive(0);
+    data.Ax = ((int) i2c_master_receive(0) << 8) | (int) i2c_master_receive(0);
     data.Ay = ((int) i2c_master_receive(0) << 8) | (int) i2c_master_receive(0);
     data.Az = ((int) i2c_master_receive(0) << 8) | (int) i2c_master_receive(0);
     data.T = ((int) i2c_master_receive(0) << 8) | (int) i2c_master_receive(0);
